@@ -67,7 +67,7 @@ export async function POST(request: Request) {
     const lastMessage = messages[messages.length - 1];
 
     // Stream response from Claude
-    const result = await streamText({
+    const result = streamText({
       model: anthropic("claude-3-5-sonnet-20241022"),
       system: `You are ROSTR, an AI workflow automation assistant powered by Vercel AI SDK.
 You help users with:
@@ -79,7 +79,7 @@ You help users with:
 Always be helpful, concise, and action-oriented.`,
       messages: messages,
       temperature: 0.7,
-      maxTokens: 2048,
+      maxOutputTokens: 2048,
     });
 
     // Collect full response for database
@@ -92,19 +92,16 @@ Always be helpful, concise, and action-oriented.`,
       async start(controller) {
         try {
           for await (const chunk of result.fullStream) {
-            if (
-              chunk.type === "text-delta" ||
-              chunk.type === "text-content"
-            ) {
-              const text = "text" in chunk ? chunk.text : "";
-              fullResponse += text;
+            if (chunk.type === "text-delta") {
+              fullResponse += chunk.text;
               const encoded = encoder.encode(
-                `data: ${JSON.stringify({ type: "text", content: text })}\n\n`
+                `data: ${JSON.stringify({ type: "text", content: chunk.text })}\n\n`
               );
               controller.enqueue(encoded);
             }
             if (chunk.type === "finish") {
-              tokenCount = chunk.usage?.totalTokens || 0;
+              const usage = chunk as { usage?: { totalTokens: number } };
+              tokenCount = usage.usage?.totalTokens || 0;
             }
           }
 
