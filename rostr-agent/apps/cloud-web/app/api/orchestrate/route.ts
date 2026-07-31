@@ -1,4 +1,4 @@
-import { streamText } from "@vercel/ai";
+import { streamText } from "ai";
 import { anthropic } from "@ai-sdk/anthropic";
 import { kv } from "@vercel/kv";
 import { sql } from "@vercel/postgres";
