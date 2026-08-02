@@ -111,7 +111,7 @@ const ThreadRoot: FC<{ isEmpty: boolean }> = ({ isEmpty }) => {
 
   return (
     <ThreadPrimitive.Root
-      className="aui-root aui-thread-root bg-background @container flex h-full flex-col"
+      className="aui-root aui-thread-root bg-background @container flex h-full w-full flex-col"
       style={{
         ["--thread-max-width" as string]: "44rem",
         ["--composer-bg" as string]:
