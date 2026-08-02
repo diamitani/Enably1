@@ -1,4 +1,4 @@
-import { anthropic } from "@ai-sdk/anthropic";
+import { createOpenAI } from "@ai-sdk/openai";
 import { frontendTools } from "@assistant-ui/react-ai-sdk";
 import {
   type JSONSchema7,
@@ -6,6 +6,11 @@ import {
   convertToModelMessages,
   type UIMessage,
 } from "ai";
+
+const deepseek = createOpenAI({
+  apiKey: process.env.DEEPSEEK_API_KEY,
+  baseURL: "https://api.deepseek.com/v1",
+});
 
 export async function POST(req: Request) {
   const {
@@ -19,7 +24,7 @@ export async function POST(req: Request) {
   } = await req.json();
 
   const result = streamText({
-    model: anthropic("claude-sonnet-4-6"),
+    model: deepseek("deepseek-chat"),
     messages: await convertToModelMessages(messages),
     system,
     tools: frontendTools(tools ?? {}),
