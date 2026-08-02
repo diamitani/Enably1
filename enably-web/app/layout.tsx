@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Enably — Go-to-Market Architect",
-  description: "AI-powered GTM automation and workflow orchestration",
+  description: "Ship your GTM in days, not months. Define ICPs, write playbooks, generate outreach, and sync to CRM—backed by a memory-aware assistant.",
 };
 
 export default function RootLayout({

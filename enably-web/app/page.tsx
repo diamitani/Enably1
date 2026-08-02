@@ -1,5 +1,5 @@
-import { Assistant } from "./assistant";
+import GTMHomePage from "@/components/gtm/GTMHomePage";
 
 export default function Home() {
-  return <Assistant />;
+  return <GTMHomePage />;
 }
